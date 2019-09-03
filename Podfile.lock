@@ -1,0 +1,24 @@
+PODS:
+  - Alamofire (4.8.2)
+  - IQKeyboardManager (6.4.0)
+  - MBProgressHUD (1.0.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - IQKeyboardManager
+  - MBProgressHUD (~> 1.0.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - IQKeyboardManager
+    - MBProgressHUD
+
+SPEC CHECKSUMS:
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  IQKeyboardManager: fcef267266379c003181fc3592f6bdb8bf4db839
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+
+PODFILE CHECKSUM: e4f7ba78c1ec569cd4b62707f5ab23f4a2d57f2c
+
+COCOAPODS: 1.5.2
