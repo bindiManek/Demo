@@ -14,15 +14,13 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     @IBOutlet weak var tblList: UITableView!
     var titleData = [TitleData]()
     var selectedTitleData = [TitleData]()
-    var refreshControl = UIRefreshControl()
+//    var refreshControl = UIRefreshControl()
     var strPage:Int = 1
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Total Selected \(selectedTitleData.count)"
-
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
-        self.tblList.addSubview(refreshControl) // not required when using UITableViewController
+//        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+//        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+//        self.tblList.addSubview(refreshControl) // not required when using UITableViewController
         
         // Do any additional setup after loading the view.
     }
@@ -30,6 +28,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         super.viewWillAppear(true)
         DataService.dataService.getData(page: "1") { (dataList) in
             self.titleData = dataList
+            self.navigationItem.title = "Total Posts \(self.titleData.count)"
             self.tblList.reloadData()
         }
     }
@@ -39,21 +38,11 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             self.titleData.removeAll()
             self.titleData = dataList
             self.tblList.reloadData()
-            self.refreshControl.endRefreshing()
+            self.navigationItem.title = "Total Posts \(self.titleData.count)"
+//            self.refreshControl.endRefreshing()
         }
     }
-    @objc func switchValueDidChange(_ sender: UISwitch) {
-        let swtTemp = sender
-        let tempOld: TitleData
-        tempOld = titleData[swtTemp.tag]
-        if !self.selectedTitleData.contains(where: {$0.Title == tempOld.Title}) {
-            self.selectedTitleData.append(tempOld)
-        } else {
-            self.selectedTitleData.removeAll{$0.Title == tempOld.Title}
-        }
-        self.tblList.reloadData()
-        self.navigationItem.title = "Total Selected \(selectedTitleData.count)"
-    }
+    
     // MARK: - Table View
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -75,6 +64,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
                     let temp = dataList[i]
                     self.titleData.append(temp)
                 }
+                self.navigationItem.title = "Total Posts \(self.titleData.count)"
                 self.tblList.reloadData()
             }
         }
@@ -82,30 +72,23 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         temp = titleData[indexPath.row]
         cell.lblTitle.text = temp.Title
         cell.lblCreatedAt.text = temp.CreatedAt
-        if self.selectedTitleData.contains(where: {$0.Title == temp.Title}) {
-            cell.swtToggle.isOn = true
-        } else {
-            cell.swtToggle.isOn = false
-        }
-        cell.swtToggle.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
-        cell.swtToggle.tag = indexPath.row
         
         return cell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-
-        let tempOld: TitleData
-        tempOld = titleData[indexPath.row]
-        
-        if !self.selectedTitleData.contains(where: {$0.Title == tempOld.Title}) {
-            self.selectedTitleData.append(tempOld)
-        } else {
-            self.selectedTitleData.removeAll{$0.Title == tempOld.Title}
-        }
-        self.tblList.reloadData()
-        self.navigationItem.title = "Total Selected \(selectedTitleData.count)"
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//
+//        let tempOld: TitleData
+//        tempOld = titleData[indexPath.row]
+//
+//        if !self.selectedTitleData.contains(where: {$0.Title == tempOld.Title}) {
+//            self.selectedTitleData.append(tempOld)
+//        } else {
+//            self.selectedTitleData.removeAll{$0.Title == tempOld.Title}
+//        }
+//        self.tblList.reloadData()
+//        self.navigationItem.title = "Total Post \(titleData.count)"
+//    }
 }
 
 extension String

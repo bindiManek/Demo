@@ -12,7 +12,6 @@ class DisplayCell: UITableViewCell {
     
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblCreatedAt: UILabel!
-    @IBOutlet weak var swtToggle: UISwitch!
     
     override func awakeFromNib() {
         super.awakeFromNib()
